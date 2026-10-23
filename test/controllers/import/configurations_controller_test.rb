@@ -104,4 +104,58 @@ class Import::ConfigurationsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Account", @import.account_col_label
     assert_equal "1.234,56", @import.number_format
   end
+
+  test "show renders the UniSuper configuration with the export's options" do
+    unisuper = unisuper_import
+
+    get import_configuration_url(unisuper)
+
+    assert_response :success
+    assert_select "input[name=?]", "import[unisuper_allocation][high_growth]"
+    assert_select "input[name=?]", "import[unisuper_allocation][international_shares]"
+    assert_select "input[name=?]", "import[unisuper_allocation][balanced]", count: 0
+  end
+
+  test "UniSuper configuration saves the account and contribution strategy" do
+    unisuper = unisuper_import
+    account = super_account(owner: @user)
+
+    patch import_configuration_url(unisuper), params: {
+      import: { account_id: account.id, unisuper_allocation: { high_growth: "60", international_shares: "40" } }
+    }
+
+    assert_redirected_to import_clean_url(unisuper)
+    unisuper.reload
+    assert_equal account, unisuper.account
+    assert_equal({ "High Growth" => BigDecimal("60"), "International Shares" => BigDecimal("40") }, unisuper.unisuper_allocation)
+    assert_equal 11, unisuper.rows_count
+  end
+
+  test "UniSuper configuration refuses an account the user can't write to" do
+    unisuper = unisuper_import
+    private_account = super_account(owner: users(:family_member))
+
+    patch import_configuration_url(unisuper), params: {
+      import: { account_id: private_account.id, unisuper_allocation: { high_growth: "100" } }
+    }
+
+    assert_equal I18n.t("accounts.not_authorized"), flash[:alert]
+    assert_nil unisuper.reload.account
+  end
+
+  private
+
+    def unisuper_import
+      @user.family.imports.create!(type: "UnisuperImport", raw_file_str: file_fixture("imports/unisuper.csv").read)
+    end
+
+    def super_account(owner:)
+      @user.family.accounts.create!(
+        name: "UniSuper #{owner.id.first(4)}",
+        balance: 0,
+        currency: "AUD",
+        owner: owner,
+        accountable: Investment.new(subtype: "super")
+      )
+    end
 end

@@ -16,6 +16,8 @@ class Import::ConfigurationsController < ApplicationController
     if params[:refresh_only]
       @import.update!(rows_to_skip: params.dig(:import, :rows_to_skip).to_i)
       redirect_to import_configuration_path(@import)
+    elsif import_params[:account_id].present? && !Current.family.accounts.writable_by(Current.user).exists?(id: import_params[:account_id])
+      redirect_back_or_to import_configuration_path(@import), alert: t("accounts.not_authorized")
     else
       @import.update!(import_params)
       @import.generate_rows_from_csv
@@ -54,7 +56,8 @@ class Import::ConfigurationsController < ApplicationController
         :amount_type_strategy,
         :amount_type_identifier_value,
         :amount_type_inflow_value,
-        :rows_to_skip
+        :rows_to_skip,
+        *@import.extra_configuration_params
       )
     end
 end

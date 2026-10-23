@@ -130,6 +130,14 @@ en:
         name_optional: Name (optional)
         select_format: Select format
         tags_optional: Tags (optional)
+      unisuper_import:
+        intro: The columns of your UniSuper export are already set up. Choose the account and your contribution strategy to continue.
+        account: Account
+        select_account: Select an investment account
+        account_help: An investment account in AUD. Give it the Pension subtype for a UniSuper pension account.
+        allocation: Contribution strategy (%)
+        allocation_help: From Member Online > Your investments > Future contribution strategy. Each contribution buys units of these options in these proportions.
+        apply_configuration: Apply configuration
       actual_import:
         preconfigured_notice: We have pre-configured your Actual Budget import for you. Please proceed to the next step.
         leave_empty: Leave empty
@@ -368,6 +376,7 @@ en:
       pdf_import: "PDF import"
       document_import: "Document import"
       sure_import: "Sure import"
+      unisuper_import: "UniSuper import"
     steps:
       upload: Upload
       configure: Configure
@@ -434,6 +443,7 @@ en:
       import_transactions: Import transactions
       import_qif: Import from Quicken (QIF)
       import_sure: Import from Sure
+      import_unisuper: Import from UniSuper
       import_sure_description: Full-export .ndjson file
       import_file: Import document
       import_file_description: AI-powered analysis for PDFs and searchable file upload
@@ -517,6 +527,13 @@ en:
       custom_column_requires_inflow: "Custom column imports require an inflow column to be selected"
       interrupted: "The background worker was interrupted before this finished. Imported data was rolled back — you can safely try again."
       presumed_lost: "Marked as failed after the background job was presumed lost. The imported data was rolled back — you can safely try again."
+      unisuper_provider_disabled: "Turn on the UniSuper securities provider (Settings > Hosting) first, so each investment option gets daily prices."
+      unisuper_earlier_import: "%{account} already has a UniSuper import. Each export is the account's full history, so revert that import before publishing this one."
+      unisuper_unknown_option: "%{option} isn't a UniSuper investment option."
+      unisuper_no_price: "UniSuper has no %{option} price on or before %{date}."
+      unisuper_account_type: "UniSuper imports go into an investment account."
+      unisuper_account_currency: "UniSuper imports go into an account in AUD."
+      unisuper_allocation_total: "Your contribution strategy adds up to %{total}%, but it needs to total 100%."
     document_types:
       bank_statement: Bank Statement
       credit_card_statement: Credit Card Statement

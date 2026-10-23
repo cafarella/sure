@@ -65,6 +65,21 @@ class Provider::Unisuper < Provider
     pension: { pre_tax: true, ticker_prefix: "UNISUPER-PENSION-", name_suffix: " (Pension)" }
   }.freeze
 
+  class << self
+    # Option names the way UniSuper's statements and exports spell them.
+    def option_names
+      OPTIONS.values.map { |option| option[:name] }
+    end
+
+    # The ticker for an option name like "High Growth" (nil if it isn't one).
+    def ticker_for(option_name, pension: false)
+      option = OPTIONS.values.find { |candidate| candidate[:name].casecmp?(option_name.to_s.strip) }
+      return if option.nil?
+
+      "#{SERIES.fetch(pension ? :pension : :super)[:ticker_prefix]}#{option[:slug]}"
+    end
+  end
+
   def initialize
     # Public data, no API key.
   end

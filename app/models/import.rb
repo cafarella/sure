@@ -39,7 +39,7 @@ class Import < ApplicationRecord
 
   DOCUMENT_TYPES = %w[bank_statement credit_card_statement investment_statement financial_document contract other].freeze
 
-  TYPES = %w[TransactionImport TradeImport AccountImport MintImport ActualImport YnabImport CategoryImport RuleImport MerchantImport PdfImport QifImport SureImport].freeze
+  TYPES = %w[TransactionImport TradeImport AccountImport MintImport ActualImport YnabImport CategoryImport RuleImport MerchantImport PdfImport QifImport SureImport UnisuperImport].freeze
   # Imports that write family-wide configuration (categories, tags, rules,
   # merchants), which guests may view but not change.
   FAMILY_CONFIG_TYPES = %w[CategoryImport MerchantImport RuleImport SureImport].freeze
@@ -367,6 +367,12 @@ class Import < ApplicationRecord
   end
 
   def required_column_keys
+    []
+  end
+
+  # Extra params a type's configuration form sends, on top of the shared
+  # column settings. Import::ConfigurationsController permits these.
+  def extra_configuration_params
     []
   end
 
