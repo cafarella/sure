@@ -324,3 +324,7 @@ XJSE:
 MISX:
   name: Moscow Exchange
   country: RU
+
+# Not listed anywhere, e.g. super fund options (ISO 10383 "no market")
+XXXX:
+  name: Unlisted

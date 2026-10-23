@@ -55,6 +55,7 @@ en:
         moex_public_hint: free, no API key -- Russian stocks, funds & bonds (MOEX), incl. RUB FX
         tinkoff_invest_hint: requires read-only token -- Russian stocks/funds/bonds prices + brand logos
         requires_api_key_mansa: requires API key, 100 calls/day free tier -- NGX (Nigerian Exchange) only
+        unisuper_hint: free, no API key -- UniSuper (Australian super) investment options only
         providers:
           twelve_data: Twelve Data
           yahoo_finance: Yahoo Finance
@@ -67,6 +68,7 @@ en:
           tinkoff_invest: T-Invest (T-Bank)
           frankfurter: Frankfurter
           mansa: Mansa
+          unisuper: UniSuper
       assistant_settings:
         title: AI Assistant
         description: Choose how the chat assistant responds. Builtin uses your configured LLM provider directly. External delegates to a remote AI agent that can call back to Sure's financial tools via MCP. None in app removes the in-app chat and keeps MCP available for your own agents.
